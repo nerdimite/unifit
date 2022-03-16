@@ -8,8 +8,7 @@ from pose_classification_utils import (
     FullBodyPoseEmbedder,
     PoseClassifier,
     EMADictSmoothing,
-    RepetitionCounter,
-    PoseClassificationVisualizer
+    RepetitionCounter
 )
 
 mp_drawing = mp.solutions.drawing_utils
@@ -39,13 +38,6 @@ repetition_counter = RepetitionCounter(
     class_name=class_name,
     enter_threshold=6,
     exit_threshold=4)
-
-# Initialize renderer.
-pose_classification_visualizer = PoseClassificationVisualizer(
-    class_name=class_name,
-    plot_x_max=20,
-    # Graphic looks nicer if it's the same as `top_n_by_mean_distance`.
-    plot_y_max=10)
 
 
 def main():
@@ -124,13 +116,6 @@ def main():
                     # Don't update the counter presuming that person is 'frozen'. Just
                     # take the latest repetitions count.
                     repetitions_count = repetition_counter.n_repeats
-
-                    # Draw classification plot and repetition counter.
-                    output_frame = pose_classification_visualizer(
-                        frame=output_frame,
-                        pose_classification=pose_classification,
-                        pose_classification_filtered=pose_classification_filtered,
-                        repetitions_count=repetitions_count)
 
                 fps = num_frames / (time() - t1)
                 cv2.putText(display_frame, f"FPS: {fps}", (10, 20),
