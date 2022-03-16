@@ -11,41 +11,12 @@ export default function Workout() {
   // For pose estimation
   const inputVideoRef = useRef();
   const canvasRef = useRef();
+  const [landmarks, setLandmarks] = useState();
 
   // For Pyodide
   const indexURL = "https://cdn.jsdelivr.net/pyodide/dev/full/";
   const pyodide = useRef(null);
   const [isPyodideLoading, setIsPyodideLoading] = useState(true);
-  const [pyodideOutput, setPyodideOutput] = useState(evaluatingMessage);
-
-  /**
-   * Draw the landmarks on the body when results are computed
-   */
-  const onResults = (results) => {
-    const canvasCtx = canvasRef.current.getContext("2d");
-    // console.log(canvasCtx, canvasRef.current.width);
-    canvasCtx.save();
-
-    canvasCtx.clearRect(
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
-    );
-
-    drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
-      color: "#00FF00",
-      lineWidth: 4,
-    });
-    drawLandmarks(canvasCtx, results.poseLandmarks, {
-      color: "#FF0000",
-      lineWidth: 2,
-    });
-
-    console.log(results.poseLandmarks);
-
-    canvasCtx.restore();
-  };
 
   /**
    * Initialize and Setup Pose Tracking
@@ -82,48 +53,67 @@ export default function Workout() {
   useEffect(() => {
     (async function () {
       pyodide.current = await globalThis.loadPyodide({ indexURL });
-      pyodide.current.loadPackage("numpy");
+      await pyodide.current.loadPackage("numpy");
       setIsPyodideLoading(false);
     })();
   }, [pyodide]);
 
   /**
-   * Evaluate and execute python code
+   * Draw the landmarks on the body when results are computed
    */
-  const evaluatePython = async (pyodide, pythonCode) => {
-    if (!isPyodideLoading) {
-      try {
-        let output = await pyodide.runPython(pythonCode);
-        return output;
-      } catch (error) {
-        console.error(error);
-        return "Error evaluating Python code. See console for details.";
-      }
-    } else {
-      return "Pyodide is still loading";
-    }
+  const onResults = (results) => {
+    const canvasCtx = canvasRef.current.getContext("2d");
+    // console.log(canvasCtx, canvasRef.current.width);
+    canvasCtx.save();
+
+    canvasCtx.clearRect(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    );
+
+    drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+      color: "#00FF00",
+      lineWidth: 4,
+    });
+    drawLandmarks(canvasCtx, results.poseLandmarks, {
+      color: "#FF0000",
+      lineWidth: 2,
+    });
+
+    // console.log(results.poseLandmarks);
+    setLandmarks(results.poseLandmarks);
+
+    canvasCtx.restore();
   };
 
-  // Evaluate python code with pyodide and set output
+  /**
+   * Evaluate and execute python code
+   */
   useEffect(() => {
-    let x = [1, 2, 3];
-
     if (!isPyodideLoading) {
       const evaluatePython = async (pyodide, pythonCode) => {
         try {
-          return await pyodide.runPython(pythonCode);
+          let _output = await pyodide.runPython(pythonCode);
+          return _output;
         } catch (error) {
           console.error(error);
           return "Error evaluating Python code. See console for details.";
         }
       };
       (async function () {
-        let _output = await evaluatePython(pyodide.current, pythonCode);
-        setPyodideOutput(_output(5));
-        console.log("JS", _output(5));
+        let response = await fetch("/python/main.py");
+        let pythonCode = await response.text();
+        // console.log(pythonCode);
+
+        let output = await evaluatePython(pyodide.current, pythonCode);
+        // output(landmarks);
+        // setPyodideOutput(_output(5));
+        // console.log("JS", window.x.toJs());
       })();
     }
-  }, [isPyodideLoading, pyodide, pythonCode]);
+  }, [landmarks, isPyodideLoading, pyodide]);
 
   return (
     <Container>
@@ -131,7 +121,7 @@ export default function Workout() {
         <title>Workout | UniFit</title>
         <meta name="description" content="The Future of Fitness is Here" />
         <link rel="icon" href="/favicon.ico" />
-        <script src="https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js" />
+        <script src={`${indexURL}pyodide.js`} />
       </Head>
 
       <Prose>

@@ -19,6 +19,7 @@ export default function Dashboard() {
         <Link href="/app/workout" className="decoration-rose-500">
           Start Workout
         </Link>
+        <br />
         <Link href="/app/pyodide" className="decoration-purple-500">
           Pyodide
         </Link>
