@@ -11,7 +11,7 @@ export default function Workout() {
   // For pose estimation
   const inputVideoRef = useRef();
   const canvasRef = useRef();
-  const [landmarks, setLandmarks] = useState();
+  const [landmarks, setLandmarks] = useState(null);
 
   // For Pyodide
   const indexURL = "https://cdn.jsdelivr.net/pyodide/dev/full/";
@@ -92,7 +92,7 @@ export default function Workout() {
    * Evaluate and execute python code
    */
   useEffect(() => {
-    if (!isPyodideLoading) {
+    if (!isPyodideLoading && landmarks) {
       const evaluatePython = async (pyodide, pythonCode) => {
         try {
           let _output = await pyodide.runPython(pythonCode);
@@ -108,7 +108,7 @@ export default function Workout() {
         // console.log(pythonCode);
 
         let output = await evaluatePython(pyodide.current, pythonCode);
-        // output(landmarks);
+        output(landmarks);
         // setPyodideOutput(_output(5));
         // console.log("JS", window.x.toJs());
       })();
@@ -121,7 +121,6 @@ export default function Workout() {
         <title>Workout | UniFit</title>
         <meta name="description" content="The Future of Fitness is Here" />
         <link rel="icon" href="/favicon.ico" />
-        <script src={`${indexURL}pyodide.js`} />
       </Head>
 
       <Prose>
