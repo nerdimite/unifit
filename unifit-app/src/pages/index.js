@@ -11,7 +11,7 @@ export default function Home() {
       </Head>
 
       <Prose>
-        <h1>UniFit</h1>
+        <h1 className = "">UniFit</h1>
         <h2>Experience the Future of Fitness at your Home</h2>
         <Link href="/app" className="decoration-green-500">
           Dashboard
