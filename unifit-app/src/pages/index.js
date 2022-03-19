@@ -48,7 +48,7 @@ export default function Index() {
         />
       </section>
 
-      <section className='mt-48 md:mt-40 pb-40 relative bg-slate-100'>
+      <section id = "features" className='mt-48 md:mt-40 pb-40 relative bg-slate-100'>
         <div
           className='-mt-20 top-0 bottom-auto left-0 right-0 w-full absolute h-20'
           style={{ transform: 'translateZ(0)' }}
@@ -171,7 +171,7 @@ export default function Index() {
           </div>
         </div>
 
-        <div className='container mx-auto overflow-hidden pb-20'>
+        <div id='vision' className='container mx-auto overflow-hidden pb-20'>
           <div className='flex flex-wrap items-center'>
             <div className='w-full md:w-4/12 px-12 md:px-4 ml-auto mr-auto mt-36'>
               <div className='text-slate-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white'>
@@ -186,24 +186,28 @@ export default function Index() {
                 mental wellbeing and primary care.
               </p>
               <div className='block pb-6'>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Easy to use
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'></span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+
+                </span>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Push harder
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'></span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+
+                </span>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Health is Wealth
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Track and Transform
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   360 Degree Training
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Run while you
                 </span>
               </div>
@@ -245,102 +249,72 @@ export default function Index() {
             </div>
           </div>
 
-          <div className='flex flex-wrap items-center pt-32'>
+          <div id = "team" className='flex flex-wrap items-center pt-32'>
             <div className='w-full md:w-6/12 px-4 mr-auto ml-auto mt-32'>
               <div className='justify-center flex flex-wrap relative'>
                 <div className='my-4 w-full lg:w-6/12 px-4'>
-                  <a
-                    href='https://www.creative-tim.com/learning-lab/tailwind/svelte/alerts/notus?ref=vtw-index'
-                    target='_blank'
-                  >
-                    <div className='bg-red-600 shadow-lg rounded-lg text-center p-8'>
+                    <div className='bg-red-700 shadow-lg rounded-lg text-center p-8 hover:animate-bounce'>
                       <img
                         alt='...'
-                        className='shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white'
-                        src='https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/svelte.jpg'
+                        className='shadow-md rounded-full max-w-full w-32 mx-auto  bg-white'
+                        src='/images/bhavesh.jpg'
                       />
                       <p className='text-lg text-white mt-4 font-semibold'>
-                        Svelte
+                        Bhavesh Laddagiri
                       </p>
                     </div>
-                  </a>
-                  <a
-                    href='https://www.creative-tim.com/learning-lab/tailwind/react/alerts/notus?ref=vtw-index'
-                    target='_blank'
-                  >
-                    <div className='bg-sky-500 shadow-lg rounded-lg text-center p-8 mt-8'>
+                    <div className='bg-sky-500 shadow-lg rounded-lg text-center p-8 mt-8 hover:animate-bounce'>
                       <img
                         alt='...'
-                        className='shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white'
-                        src='https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/react.jpg'
+                        className='shadow-md rounded-full max-w-full w-32 mx-auto bg-white'
+                        src='/images/abhishek.jpg'
                       />
                       <p className='text-lg text-white mt-4 font-semibold'>
-                        ReactJS
+                        Abhishek Bhardwaj
                       </p>
                     </div>
-                  </a>
-                  <a
-                    href='https://www.creative-tim.com/learning-lab/tailwind/nextjs/alerts/notus?ref=vtw-index'
-                    target='_blank'
-                  >
-                    <div className='bg-slate-700 shadow-lg rounded-lg text-center p-8 mt-8'>
+                    <div className='bg-slate-700 shadow-lg rounded-lg text-center p-8 mt-8 hover:animate-bounce'>
                       <img
                         alt='...'
-                        className='shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white'
-                        src='https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/nextjs.jpg'
+                        className='shadow-md rounded-full max-w-full w-32 mx-auto bg-white'
+                        src='/images/Vanika.jpg'
                       />
                       <p className='text-lg text-white mt-4 font-semibold'>
-                        NextJS
+                        Vanika Gehani
                       </p>
                     </div>
-                  </a>
                 </div>
-                <div className='my-4 w-full lg:w-6/12 px-4 lg:mt-16'>
-                  <a
-                    href='https://www.creative-tim.com/learning-lab/tailwind/js/alerts/notus?ref=vtw-index'
-                    target='_blank'
-                  >
-                    <div className='bg-yellow-500 shadow-lg rounded-lg text-center p-8'>
+                <div className='my-4 w-full lg:w-6/12 px-4 lg:mt-16 '>
+                    <div className='bg-emerald-500 shadow-lg rounded-lg text-center p-8 hover:animate-bounce'>
                       <img
                         alt='...'
-                        className='shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white'
-                        src='https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/js.png'
+                        className='shadow-md rounded-full max-w-full w-32 mx-auto bg-white'
+                        src='/images/bhavya.jpg'
                       />
                       <p className='text-lg text-white mt-4 font-semibold'>
-                        JavaScript
+                        Bhavya Gupta
                       </p>
                     </div>
-                  </a>
-                  <a
-                    href='https://www.creative-tim.com/learning-lab/tailwind/angular/alerts/notus?ref=vtw-index'
-                    target='_blank'
-                  >
-                    <div className='bg-red-700 shadow-lg rounded-lg text-center p-8 mt-8'>
+                    <div className='bg-red-600 shadow-lg rounded-lg text-center p-8 mt-8 hover:animate-bounce'>
                       <img
                         alt='...'
-                        className='shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white'
-                        src='https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/angular.jpg'
+                        className='shadow-md rounded-full max-w-full w-32 mx-auto bg-white'
+                        src='/images/aastha.jpg'
                       />
                       <p className='text-lg text-white mt-4 font-semibold'>
-                        Angular
+                        Aastha Mishra
                       </p>
                     </div>
-                  </a>
-                  <a
-                    href='https://www.creative-tim.com/learning-lab/tailwind/vue/alerts/notus?ref=vtw-index'
-                    target='_blank'
-                  >
-                    <div className='bg-emerald-500 shadow-lg rounded-lg text-center p-8 mt-8'>
+                    <div className='bg-yellow-500  shadow-lg rounded-lg text-center p-8 mt-8 hover:animate-bounce'>
                       <img
                         alt='...'
-                        className='shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white'
-                        src='https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/vue.jpg'
+                        className='shadow-md rounded-full max-w-full w-32 mx-auto bg-white'
+                        src='/images/kunal.jpg'
                       />
                       <p className='text-lg text-white mt-4 font-semibold'>
-                        Vue.js
+                        Kunal Srivastav
                       </p>
                     </div>
-                  </a>
                 </div>
               </div>
             </div>
@@ -358,40 +332,37 @@ export default function Index() {
                 Meet Team Binary Souls
               </h3>
               <p className='text-lg font-light leading-relaxed mt-4 mb-4 text-slate-600'>
-                In order to create a great User Experience some components
-                require JavaScript. In this way you can manipulate the elements
-                on the page and give more options to your users.
+                We are a team of passionate developers who are passionate about building the future of the web. 
               </p>
               <p className='text-lg font-light leading-relaxed mt-4 mb-4 text-slate-600'>
-                We created a set of Components that are dynamic and come to help
-                you.
+                We have created this web application to help people to get the easiest and reliable solution to get fit.
               </p>
-              <div className='block pb-6'>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+              {/* <div className='block pb-6'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Alerts
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Dropdowns
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Menus
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Modals
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Navbars
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Popovers
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Tabs
                 </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Tooltips
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -613,12 +584,11 @@ export default function Index() {
                 </span>
               </p>
               <h3 className='font-semibold text-3xl'>
-                Do you love this Starter Kit?
+                So are you ready to go on a journey to maximise your potential?   
               </h3>
               <p className='text-slate-500 text-lg leading-relaxed mt-4 mb-4'>
-                Cause if you do, it can be yours now. Hit the buttons below to
-                navigate to get the Free version for your next project. Build a
-                new web app or give an old project a new look!
+                Cause if you do, you are at the right place. Hit the buttons below to
+                Sign Up with UniFit! 
               </p>
               <div className='sm:block flex flex-col mt-10'>
                 <a
@@ -626,15 +596,7 @@ export default function Index() {
                   target='_blank'
                   className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-2 bg-slate-400 active:bg-slate-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
                 >
-                  Get started
-                </a>
-                <a
-                  href='https://github.com/creativetimofficial/notus-nextjs?ref=nnjs-index'
-                  target='_blank'
-                  className='github-star sm:ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-slate-700 active:bg-slate-600 uppercase text-sm shadow hover:shadow-lg'
-                >
-                  <i className='fab fa-github text-lg mr-1'></i>
-                  <span>Help With a Star</span>
+                  Sign Up
                 </a>
               </div>
               <div className='text-center mt-16'></div>
