@@ -17,16 +17,19 @@ export default function Index() {
                 UniFit - Experience the Future of Fitness at your Home
               </h2>
               <p className='mt-4 text-lg leading-relaxed text-slate-500'>
-                UniFit is a fitness app that helps you to get to your best physical fitness. We help you to find the best workout for you. We track the progress of your workouts and help you to improve your fitness. 
+                UniFit is a unified AI-powered fitness experience at your home
+                which uses <strong>Augmented Reality</strong> and{' '}
+                <strong>Pose Estimation</strong> to give you a personlized
+                virtual fitness trainer.
               </p>
               <div className='mt-12'>
-                  <a
-                    href=''
-                    target='_blank'
-                    className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-slate-400 active:bg-slate-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
-                  >
-                    Sign Up / Login
-                  </a>
+                <a
+                  href=''
+                  target='_blank'
+                  className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-slate-400 active:bg-slate-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
+                >
+                  Sign Up / Login
+                </a>
                 <a
                   href='/app'
                   className='github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-slate-700 active:bg-slate-600 uppercase text-sm shadow hover:shadow-lg'
@@ -68,16 +71,17 @@ export default function Index() {
         <div className='container mx-auto'>
           <div className='flex flex-wrap items-center'>
             <div className='w-10/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-32'>
-              <div className='relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-slate-700'
-              style={{
+              <div
+                className='relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-slate-700'
+                style={{
                   transform:
                     'scale(1) perspective(1040px) rotateY(15deg) rotateX(2deg) rotate(1deg)',
-                }}>
+                }}
+              >
                 <img
                   alt='...'
-                  src='https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80'
+                  src='images/feature.gif'
                   className='w-full align-middle rounded-t-lg'
-                  
                 />
                 <blockquote className='relative p-8 mb-4'>
                   <svg
@@ -91,14 +95,12 @@ export default function Index() {
                       className='text-slate-600 fill-current'
                     ></polygon> */}
                   </svg>
-                  <h4 className='text-xl font-bold text-white'>
-                    Great for your awesome project
-                  </h4>
+                  <h4 className='text-xl font-bold text-white'>Features</h4>
                   <p className='text-md font-light mt-2 text-white'>
-                    Putting together a page has never been easier than matching
-                    together pre-made components. From landing pages
-                    presentation to login areas, you can easily customise and
-                    built your pages.
+                    UniFit is a fitness app that helps you to get to your best
+                    physical fitness. We help you to find the best workout for
+                    you. We track the progress of your workouts and help you to
+                    improve your fitness.
                   </p>
                 </blockquote>
               </div>
@@ -110,28 +112,28 @@ export default function Index() {
                   <div className='relative flex flex-col mt-4'>
                     <div className='px-4 py-5 flex-auto'>
                       <div className='text-slate-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white'>
-                        <i className='fas fa-sitemap'></i>
+                        <img src='images/progress-tracker.png' />
                       </div>
                       <h6 className='text-xl mb-1 font-semibold'>
-                        CSS Components
+                        Progress Tracker
                       </h6>
                       <p className='mb-4 text-slate-500'>
-                        Notus NextJS comes with a huge number of Fully Coded CSS
-                        components.
+                        Visualize your daily progress through a detailed graph
+                        and much more! Stay consistent for better results.
                       </p>
                     </div>
                   </div>
                   <div className='relative flex flex-col min-w-0'>
                     <div className='px-4 py-5 flex-auto'>
                       <div className='text-slate-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white'>
-                        <i className='fas fa-drafting-compass'></i>
+                        <img src='images/dumbell.png' />
                       </div>
                       <h6 className='text-xl mb-1 font-semibold'>
-                        JavaScript Components
+                        Workout Planner
                       </h6>
                       <p className='mb-4 text-slate-500'>
-                        We also feature many dynamic components for React,
-                        NextJS, Vue and Angular.
+                        It automatically creates a workout plan according to the
+                        user's need.
                       </p>
                     </div>
                   </div>
@@ -140,26 +142,26 @@ export default function Index() {
                   <div className='relative flex flex-col min-w-0 mt-4'>
                     <div className='px-4 py-5 flex-auto'>
                       <div className='text-slate-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white'>
-                        <i className='fas fa-newspaper'></i>
+                        <img src='images/console.png' />
                       </div>
-                      <h6 className='text-xl mb-1 font-semibold'>Pages</h6>
+                      <h6 className='text-xl mb-1 font-semibold'>Gamify</h6>
                       <p className='mb-4 text-slate-500'>
-                        This extension also comes with 3 sample pages. They are
-                        fully coded so you can start working instantly.
+                        To gamify the experience, users can share their progress
+                        with their friends and compete in a leaderboard.
                       </p>
                     </div>
                   </div>
                   <div className='relative flex flex-col min-w-0'>
                     <div className='px-4 py-5 flex-auto'>
                       <div className='text-slate-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white'>
-                        <i className='fas fa-file-alt'></i>
+                        <img src='images/leaderboard.png' />
                       </div>
                       <h6 className='text-xl mb-1 font-semibold'>
-                        Documentation
+                        Leaderboard
                       </h6>
                       <p className='mb-4 text-slate-500'>
-                        Built by developers for developers. You will love how
-                        easy is to to work with Notus NextJS.
+                        Users can virtual play augmented reality based fitness
+                        games with their friends.
                       </p>
                     </div>
                   </div>
@@ -171,84 +173,72 @@ export default function Index() {
 
         <div className='container mx-auto overflow-hidden pb-20'>
           <div className='flex flex-wrap items-center'>
-            <div className='w-full md:w-4/12 px-12 md:px-4 ml-auto mr-auto mt-48'>
+            <div className='w-full md:w-4/12 px-12 md:px-4 ml-auto mr-auto mt-36'>
               <div className='text-slate-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white'>
-                <i className='fas fa-sitemap text-xl'></i>
+                <img src='images/vision-icon.png' />
               </div>
               <h3 className='text-3xl mb-2 font-semibold leading-normal'>
-                CSS Components
+                Vision
               </h3>
               <p className='text-lg font-light leading-relaxed mt-4 mb-4 text-slate-600'>
-                Every element that you need in a product comes built in as a
-                component. All components fit perfectly with each other and can
-                have different colours.
+                We strive to keep you fit and healthy through a range of
+                holistic offerings that include fitness and yoga, healthy meals,
+                mental wellbeing and primary care.
               </p>
               <div className='block pb-6'>
                 <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Buttons
+                  Easy to use
+                </span>
+                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'></span>
+                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                  Push harder
+                </span>
+                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'></span>
+                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
+                  Health is Wealth
                 </span>
                 <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Inputs
+                  Track and Transform
                 </span>
                 <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Labels
+                  360 Degree Training
                 </span>
                 <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Menus
-                </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Navbars
-                </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Pagination
-                </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Progressbars
-                </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Typography
+                  Run while you
                 </span>
               </div>
-              <a
-                href='https://www.creative-tim.com/learning-lab/tailwind/nextjs/alerts/notus?ref=nnjs-index'
-                target='_blank'
-                className='font-bold text-slate-700 hover:text-slate-500 ease-linear transition-all duration-150'
-              >
-                View All{' '}
-                <i className='fa fa-angle-double-right ml-1 leading-relaxed'></i>
-              </a>
             </div>
 
             <div className='w-full md:w-5/12 px-4 mr-auto ml-auto mt-32'>
               <div className='relative flex flex-col min-w-0 w-full mb-6 mt-48 md:mt-0'>
                 <img
                   alt='...'
-                  src='/img/component-btn.png'
+                  src='/images/vision.gif'
                   className='w-full align-middle rounded absolute shadow-lg max-w-100-px left-145-px -top-29-px z-3'
                 />
                 <img
                   alt='...'
-                  src='/img/component-profile-card.png'
+                  src='/images/vision.gif'
                   className='w-full align-middle rounded-lg absolute shadow-lg max-w-210-px left-260-px -top-160-px'
                 />
                 <img
                   alt='...'
-                  src='/img/component-info-card.png'
+                  src='/images/vision.gif'
                   className='w-full align-middle rounded-lg absolute shadow-lg max-w-180-px left-40-px -top-225-px z-2'
                 />
                 <img
                   alt='...'
-                  src='/img/component-info-2.png'
+                  src='/images/vision.gif'
                   className='w-full align-middle rounded-lg absolute shadow-2xl max-w-200-px -left-50-px top-25-px'
                 />
                 <img
                   alt='...'
-                  src='/img/component-menu.png'
+                  src='/images/vision.gif'
                   className='w-full align-middle rounded absolute shadow-lg max-w-580-px -left-20-px top-210-px'
                 />
                 <img
                   alt='...'
-                  src='/img/component-btn-pink.png'
+                  src='/images/vision.gif'
                   className='w-full align-middle rounded absolute shadow-xl max-w-120-px left-195-px top-95-px'
                 />
               </div>
@@ -356,11 +346,16 @@ export default function Index() {
             </div>
 
             <div className='w-full md:w-4/12 px-12 md:px-4 ml-auto mr-auto mt-48'>
-              <div className='text-slate-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white'>
-                <i className='fas fa-drafting-compass text-xl'></i>
+              <div className='text-slate-500 text-center inline-flex items-center justify-center mb-6 shadow-lg w-32 h-32 rounded-full bg-white'>
+                {/* <i className='fas fa-drafting-compass text-xl'></i> */}
+                <img
+                  src='images/binary-souls-logo.png'
+                  width='100%'
+                  height='100%'
+                />
               </div>
               <h3 className='text-3xl mb-2 font-semibold leading-normal'>
-                Javascript Components
+                Meet Team Binary Souls
               </h3>
               <p className='text-lg font-light leading-relaxed mt-4 mb-4 text-slate-600'>
                 In order to create a great User Experience some components
@@ -397,19 +392,11 @@ export default function Index() {
                   Tooltips
                 </span>
               </div>
-              <a
-                href='https://www.creative-tim.com/learning-lab/tailwind/nextjs/alerts/notus?ref=nnjs-index'
-                target='_blank'
-                className='font-bold text-slate-700 hover:text-slate-500 ease-linear transition-all duration-150'
-              >
-                View all{' '}
-                <i className='fa fa-angle-double-right ml-1 leading-relaxed'></i>
-              </a>
             </div>
           </div>
         </div>
 
-        <div className='container mx-auto px-4 pb-32 pt-48'>
+        {/* <div className='container mx-auto px-4 pb-32 pt-48'>
           <div className='items-center flex flex-wrap'>
             <div className='w-full md:w-5/12 ml-auto px-12 md:px-4'>
               <div className='md:pr-12'>
@@ -484,9 +471,9 @@ export default function Index() {
               />
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className='justify-center text-center flex flex-wrap mt-24'>
+        {/* <div className='justify-center text-center flex flex-wrap mt-24'>
           <div className='w-full md:w-6/12 px-12 md:px-4'>
             <h2 className='font-semibold text-4xl'>Beautiful Example Pages</h2>
             <p className='text-lg leading-relaxed mt-4 mb-4 text-slate-500'>
@@ -495,10 +482,10 @@ export default function Index() {
               start playing with them.
             </p>
           </div>
-        </div>
+        </div> */}
       </section>
 
-      <section className='block relative z-1 bg-slate-600'>
+      {/* <section className='block relative z-1 bg-slate-600'>
         <div className='container mx-auto'>
           <div className='justify-center flex flex-wrap'>
             <div className='w-full lg:w-12/12 px-4  -mt-24'>
@@ -551,52 +538,52 @@ export default function Index() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className='py-20 bg-slate-600 overflow-hidden'>
-        <div className='container mx-auto pb-64'>
+      {/* <section className='py-16 bg-slate-600 overflow-hidden text-center flex flex-wrap'>
+        <center>
+        <div className='container mx-auto'>
           <div className='flex flex-wrap justify-center'>
-            <div className='w-full md:w-5/12 px-12 md:px-4 ml-auto mr-auto md:mt-64'>
-              <div className='text-slate-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white'>
-                <i className='fas fa-code-branch text-xl'></i>
-              </div>
-              <h3 className='text-3xl mb-2 font-semibold leading-normal text-white'>
-                Open Source
-              </h3>
-              <p className='text-lg font-light leading-relaxed mt-4 mb-4 text-slate-400'>
-                Since{' '}
-                <a
-                  href='https://tailwindcss.com/?ref=creative'
-                  className='text-slate-300'
-                  target='_blank'
-                >
-                  Tailwind CSS
-                </a>{' '}
-                is an open source project we wanted to continue this movement
-                too. You can give this version a try to feel the design and also
-                test the quality of the code!
-              </p>
-              <p className='text-lg font-light leading-relaxed mt-0 mb-4 text-slate-400'>
-                Get it free on Github and please help us spread the news with a
-                Star!
-              </p>
+          <div className='flex flex-wrap justify-center w-full md:w-5/12 px-12 md:px-4 ml-auto mr-auto'>
+            <img src='images/binary-souls-logo.png' width={300} height={300} />
+            <h3 className='text-3xl mb-2 font-semibold leading-normal text-white'>
+              Binary Souls
+            </h3>
+            <p className='text-lg font-light leading-relaxed mt-4 mb-4 text-slate-400'>
+              Since{' '}
               <a
-                href='https://github.com/creativetimofficial/notus-nextjs?ref=nnjs-index'
+                href='https://tailwindcss.com/?ref=creative'
+                className='text-slate-300'
                 target='_blank'
-                className='github-star mt-4 inline-block text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-slate-700 active:bg-slate-600 uppercase text-sm shadow hover:shadow-lg'
               >
-                Github Star
-              </a>
-            </div>
+                Tailwind CSS
+              </a>{' '}
+              is an open source project we wanted to continue this movement too.
+              You can give this version a try to feel the design and also test
+              the quality of the code!
+            </p>
+            <p className='text-lg font-light leading-relaxed mt-0 mb-4 text-slate-400'>
+              Get it free on Github and please help us spread the news with a
+              Star!
+            </p>
+            <a
+              href='https://github.com/creativetimofficial/notus-nextjs?ref=nnjs-index'
+              target='_blank'
+              className='github-star mt-4 inline-block text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-slate-700 active:bg-slate-600 uppercase text-sm shadow hover:shadow-lg'
+            >
+              Github Star
+            </a>
+          </div>
 
-            <div className='w-full md:w-4/12 px-4 mr-auto ml-auto mt-32 relative'>
-              <i className='fab fa-github text-slate-700 absolute text-55 -top-150-px -right-100 left-auto opacity-80'></i>
-            </div>
+          <div className='w-full md:w-4/12 px-4 mr-auto ml-auto mt-32 relative'>
+            <i className='fab fa-github text-slate-700 absolute text-55 -top-150-px -right-100 left-auto opacity-80'></i>
+          </div>
           </div>
         </div>
-      </section>
+        </center>
+      </section> */}
 
-      <section className='pb-16 bg-slate-200 relative pt-32'>
+      <section className='pb-16 bg-slate-600 relative pt-32'>
         <div
           className='-mt-20 top-0 bottom-auto left-0 right-0 w-full absolute h-20'
           style={{ transform: 'translateZ(0)' }}
