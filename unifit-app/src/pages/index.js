@@ -587,7 +587,7 @@ export default function Index() {
                 So are you ready to go on a journey to maximise your potential?   
               </h3>
               <p className='text-slate-500 text-lg leading-relaxed mt-4 mb-4'>
-                Cause if you do, you are at the right place. Hit the buttons below to
+                Cause if you do, you are at the right place. Hit the button below to
                 Sign Up with UniFit! 
               </p>
               <div className='sm:block flex flex-col mt-10'>
