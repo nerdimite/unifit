@@ -16,7 +16,7 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
 
 
-def main():
+def main(pose_classifier, pose_classification_filter, repetition_counter):
 
     cam = cv2.VideoCapture(0)
 
@@ -113,8 +113,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         'Run the pose classifier on a live webcam feed')
 
-    parser.add_argument('--exercise', '-e', type=str, default='squats', choices=['squats'])
-    parser.add_argument('--count-state', '-c', type=str, default='squats_down', choices=['squats_down'])
+    parser.add_argument('--exercise', '-e', type=str, default='squats',
+                        choices=['squats'], help='Name of exercise')
+    parser.add_argument('--count-state', '-c', type=str, default='squats_down', choices=[
+                        'squats_down'], help='State of the exercise to count for repetition_counter')
 
     args = parser.parse_args()
 
@@ -140,4 +142,4 @@ if __name__ == '__main__':
         enter_threshold=6,
         exit_threshold=4)
 
-    main()
+    main(pose_classifier, pose_classification_filter, repetition_counter)
