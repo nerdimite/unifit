@@ -53,7 +53,7 @@ export default function Workout() {
   useEffect(() => {
     (async function () {
       pyodide.current = await globalThis.loadPyodide({ indexURL });
-      await pyodide.current.loadPackage("numpy");
+      await pyodide.current.loadPackage(["numpy", "scikit-learn"]);
       setIsPyodideLoading(false);
     })();
   }, [pyodide]);

@@ -420,54 +420,6 @@ class PoseClassifier(object):
 
         return result
 
-    def accuracy(self, pose_landmarks):
-
-        # Check that provided and target poses have the same shape.
-        assert pose_landmarks.shape == (
-            self._n_landmarks, self._n_dimensions), 'Unexpected shape: {}'.format(pose_landmarks.shape)
-
-        # Get given pose embedding.
-        pose_embedding = self._pose_embedder(pose_landmarks)[11:13]
-        flipped_pose_embedding = self._pose_embedder(
-            pose_landmarks * np.array([-1, 1, 1]))[11:13]
-
-        # Filter by max distance.
-        #
-        # That helps to remove outliers - poses that are almost the same as the
-        # given one, but has one joint bent into another direction and actually
-        # represnt a different pose class.
-        max_dist_heap = []
-        for sample_idx, sample in enumerate(self._pose_samples):
-            max_dist = min(
-                np.max(np.abs(sample.embedding[11:13] - pose_embedding)
-                       * self._axes_weights),
-                np.max(np.abs(sample.embedding[11:13] - flipped_pose_embedding)
-                       * self._axes_weights),
-            )
-            max_dist_heap.append([max_dist, sample_idx])
-
-        max_dist_heap = sorted(max_dist_heap, key=lambda x: x[0])
-        max_dist_heap = max_dist_heap[:self._top_n_by_max_distance]
-
-        # Filter by mean distance.
-        #
-        # After removing outliers we can find the nearest pose by mean distance.
-        mean_dist_heap = []
-        for _, sample_idx in max_dist_heap:
-            sample = self._pose_samples[sample_idx]
-            mean_dist = min(
-                np.mean(np.abs(sample.embedding[11:13] - pose_embedding)
-                        * self._axes_weights),
-                np.mean(np.abs(sample.embedding[11:13] - flipped_pose_embedding)
-                        * self._axes_weights),
-            )
-            mean_dist_heap.append([mean_dist, sample_idx])
-
-        mean_dist_heap = sorted(mean_dist_heap, key=lambda x: x[0])
-        mean_dist_heap = mean_dist_heap[:self._top_n_by_mean_distance]
-
-        return mean_dist_heap
-
 
 """## Classification smoothing"""
 
