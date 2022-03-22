@@ -1,8 +1,11 @@
 import os
 import argparse
+from pprint import pprint
 import cv2
 from time import time
+import math
 import numpy as np
+from scipy.spatial.distance import cosine
 import mediapipe as mp
 from pose_classification_utils import (
     FullBodyPoseEmbedder,
@@ -10,13 +13,14 @@ from pose_classification_utils import (
     EMADictSmoothing,
     RepetitionCounter
 )
+from pose_critic import PoseCritic
 
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
 
 
-def main(pose_classifier, pose_classification_filter, repetition_counter):
+def main(pose_classifier, pose_classification_filter, repetition_counter, exercise, count_state, pose_critic):
 
     cam = cv2.VideoCapture(0)
 
@@ -42,6 +46,12 @@ def main(pose_classifier, pose_classification_filter, repetition_counter):
                 result = pose.process(image=input_frame)
                 pose_landmarks = result.pose_landmarks
 
+                if pose_landmarks is not None:
+                    visibility = all(
+                        [lmk.visibility > 0.5 for lmk in pose_landmarks.landmark])
+                else:
+                    visibility = False
+
                 # Draw pose prediction.
                 output_frame = input_frame.copy()
                 if pose_landmarks is not None:
@@ -55,7 +65,7 @@ def main(pose_classifier, pose_classification_filter, repetition_counter):
                 display_frame = cv2.flip(
                     cv2.cvtColor(output_frame, cv2.COLOR_BGR2RGB), 1)
 
-                if pose_landmarks is not None:
+                if pose_landmarks is not None and visibility:
                     # Get landmarks.
                     frame_height, frame_width = output_frame.shape[0], output_frame.shape[1]
                     pose_landmarks = np.array([[lmk.x * frame_width, lmk.y * frame_height, lmk.z * frame_width]
@@ -74,10 +84,22 @@ def main(pose_classifier, pose_classification_filter, repetition_counter):
                     repetitions_count = repetition_counter(
                         pose_classification_filtered)
 
-                    cv2.putText(display_frame, f"Pose: {pose_classification}", (10, 50),
-                                cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 0, 255), 2)
+                    pose_state = sorted(
+                        pose_classification_filtered.items(), key=lambda x: x[1])[-1][0]
+
+                    cv2.putText(display_frame, f"Pose: {pose_classification_filtered}", (10, 50),
+                                cv2.FONT_HERSHEY_PLAIN, 1.5,
+                                (0, 255, 255) if pose_state == count_state else (0, 255, 0), 2)
                     cv2.putText(display_frame, f"Reps: {repetitions_count}", (10, 80),
                                 cv2.FONT_HERSHEY_PLAIN, 1.5, (255, 0, 0), 2)
+
+                    # Check Accuracy of Pose
+                    is_correct, remarks = pose_critic(
+                        exercise, pose_state, pose_landmarks)
+
+                    cv2.putText(display_frame, f"Remarks: {is_correct, remarks}", (10, 110),
+                                cv2.FONT_HERSHEY_PLAIN, 1.5,
+                                (0, 255, 0) if is_correct else (0, 0, 255), 2)
 
                 else:
                     # No pose => no classification on current frame.
@@ -92,6 +114,10 @@ def main(pose_classifier, pose_classification_filter, repetition_counter):
                     # Don't update the counter presuming that person is 'frozen'. Just
                     # take the latest repetitions count.
                     repetitions_count = repetition_counter.n_repeats
+
+                    cv2.putText(display_frame, f"Visibility: {visibility}", (10, 50),
+                                cv2.FONT_HERSHEY_PLAIN, 1.5,
+                                (0, 0, 255) if not visibility else (0, 255, 0), 2)
 
                 fps = num_frames / (time() - t1)
                 cv2.putText(display_frame, f"FPS: {fps}", (10, 20),
@@ -113,10 +139,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         'Run the pose classifier on a live webcam feed')
 
-    parser.add_argument('--exercise', '-e', type=str, default='squats',
-                        choices=['squats'], help='Name of exercise')
-    parser.add_argument('--count-state', '-c', type=str, default='squats_down', choices=[
-                        'squats_down'], help='State of the exercise to count for repetition_counter')
+    parser.add_argument('--exercise', '-e', type=str,
+                        default='squats', help='Name of exercise')
+    parser.add_argument('--count-state', '-c', type=str, default='squats_down',
+                        help='State of the exercise to count for repetition_counter')
 
     args = parser.parse_args()
 
@@ -129,7 +155,8 @@ if __name__ == '__main__':
         pose_samples_folder=pose_samples_folder,
         pose_embedder=pose_embedder,
         top_n_by_max_distance=30,
-        top_n_by_mean_distance=10)
+        top_n_by_mean_distance=10,
+        axes_weights=(1., 1., 0.2))
 
     # Initialize EMA smoothing.
     pose_classification_filter = EMADictSmoothing(
@@ -142,4 +169,12 @@ if __name__ == '__main__':
         enter_threshold=6,
         exit_threshold=4)
 
-    main(pose_classifier, pose_classification_filter, repetition_counter)
+    # Initialize PoseCritic
+    pose_critic = PoseCritic()
+
+    main(pose_classifier,
+         pose_classification_filter,
+         repetition_counter,
+         args.exercise,
+         args.count_state,
+         pose_critic)
