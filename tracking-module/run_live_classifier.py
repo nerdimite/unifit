@@ -16,30 +16,6 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
 
 
-class_name = 'squats_down'
-pose_samples_folder = 'fitness_data/processed_train/squats/csvs_out'
-
-# Initialize embedder.
-pose_embedder = FullBodyPoseEmbedder()
-
-pose_classifier = PoseClassifier(
-    pose_samples_folder=pose_samples_folder,
-    pose_embedder=pose_embedder,
-    top_n_by_max_distance=30,
-    top_n_by_mean_distance=10)
-
-# Initialize EMA smoothing.
-pose_classification_filter = EMADictSmoothing(
-    window_size=10,
-    alpha=0.2)
-
-# Initialize counter.
-repetition_counter = RepetitionCounter(
-    class_name=class_name,
-    enter_threshold=6,
-    exit_threshold=4)
-
-
 def main():
 
     cam = cv2.VideoCapture(0)
@@ -135,8 +111,33 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        'Capture Images at specified intervals to create a pose database')
+        'Run the pose classifier on a live webcam feed')
+
+    parser.add_argument('--exercise', '-e', type=str, default='squats', choices=['squats'])
+    parser.add_argument('--count-state', '-c', type=str, default='squats_down', choices=['squats_down'])
 
     args = parser.parse_args()
+
+    pose_samples_folder = f'fitness_data/processed_train/{args.exercise}/csvs_out'
+
+    # Initialize embedder.
+    pose_embedder = FullBodyPoseEmbedder()
+
+    pose_classifier = PoseClassifier(
+        pose_samples_folder=pose_samples_folder,
+        pose_embedder=pose_embedder,
+        top_n_by_max_distance=30,
+        top_n_by_mean_distance=10)
+
+    # Initialize EMA smoothing.
+    pose_classification_filter = EMADictSmoothing(
+        window_size=10,
+        alpha=0.2)
+
+    # Initialize counter.
+    repetition_counter = RepetitionCounter(
+        class_name=args.count_state,
+        enter_threshold=6,
+        exit_threshold=4)
 
     main()

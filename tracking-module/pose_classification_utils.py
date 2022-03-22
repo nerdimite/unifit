@@ -89,7 +89,7 @@ class FullBodyPoseEmbedder(object):
         # Normalize scale.
         pose_size = self._get_pose_size(landmarks, self._torso_size_multiplier)
         landmarks /= pose_size
-        # Multiplication by 100 is not required, but makes it eaasier to debug.
+        # Multiplication by 100 is not required, but makes it easier to debug.
         landmarks *= 100
 
         return landmarks

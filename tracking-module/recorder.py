@@ -78,11 +78,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         'Capture Images at specified intervals to create a pose database')
 
-    parser.add_argument('-s', '--skip-frames', type=int,
+    parser.add_argument('--skip-frames', '-s', type=int,
                         default='20', help='Number of frames to skip before saving a frame.')
-    parser.add_argument('-o', '--output', type=str, required=True,
+    parser.add_argument('--output', '-o', type=str, required=True,
                         help='Path to output folder to save the images.')
-    parser.add_argument('-i', '--images', type=int, default=0,
+    parser.add_argument('--images', '-i', type=int, default=0,
                         help='Number of images to capture. Set 0 to disable.')
 
     args = parser.parse_args()
