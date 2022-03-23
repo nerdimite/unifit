@@ -11,7 +11,7 @@ export default function HeaderStats() {
       {/* Header */}
       <div className="relative bg-slate-800 md:pt-32 pb-32 pt-12">
         <div className="flex flex-wrap">
-          <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+          <div className="w-full lg:w-6/12 xl:w-4/12 px-4">
             <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg px-4">
               <div className="flex-auto p-4">
                 <div className="flex flex-wrap">
@@ -33,7 +33,7 @@ export default function HeaderStats() {
             </div>
           </div>
 
-          <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+          <div className="w-full lg:w-6/12 xl:w-4/12 px-4">
             <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg px-4">
               <div className="flex-auto p-4">
                 <div className="flex flex-wrap">
@@ -42,7 +42,7 @@ export default function HeaderStats() {
                       Streak
                     </h5>
                     <span className="font-semibold text-xl text-slate-700">
-                      5000 Days
+                      0 Days
                     </span>
                   </div>
                   <div className="relative w-auto pl-4 flex-initial">
@@ -55,7 +55,7 @@ export default function HeaderStats() {
             </div>
           </div>
 
-          <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+          <div className="w-full lg:w-6/12 xl:w-4/12 px-4">
             <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg px-4">
               <div className="flex-auto p-4">
                 <div className="flex flex-wrap">
@@ -77,7 +77,7 @@ export default function HeaderStats() {
             </div>
           </div>
 
-          <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+          {/* <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
             <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg px-4">
               <div className="flex-auto p-4">
                 <div className="flex flex-wrap">
@@ -97,7 +97,7 @@ export default function HeaderStats() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

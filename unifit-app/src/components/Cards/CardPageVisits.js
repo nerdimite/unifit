@@ -4,124 +4,86 @@ import React from 'react';
 
 export default function CardPageVisits() {
   return (
-    <>
-      <div className='relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded'>
-        <div className='rounded-t mb-0 px-4 py-3 border-0'>
-          <div className='flex flex-wrap items-center'>
-            <div className='relative w-full px-4 max-w-full flex-grow flex-1'>
-              <h3 className='font-semibold text-base text-slate-700'>
-                Page visits
-              </h3>
-            </div>
-            <div className='relative w-full px-4 max-w-full flex-grow flex-1 text-right'>
-              <button
-                className='bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
-                type='button'
-              >
-                See all
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className='block w-full overflow-x-auto'>
-          {/* Projects table */}
-          <table className='items-center w-full bg-transparent border-collapse'>
-            <thead>
-              <tr>
-                <th className='px-6 bg-slate-50 text-slate-500 align-middle border border-solid border-slate-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left'>
-                  Page name
-                </th>
-                <th className='px-6 bg-slate-50 text-slate-500 align-middle border border-solid border-slate-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left'>
-                  Visitors
-                </th>
-                <th className='px-6 bg-slate-50 text-slate-500 align-middle border border-solid border-slate-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left'>
-                  Unique users
-                </th>
-                <th className='px-6 bg-slate-50 text-slate-500 align-middle border border-solid border-slate-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left'>
-                  Bounce rate
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left'>
-                  /argon/
-                </th>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  4,569
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  340
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  <i className='fas fa-arrow-up text-emerald-500 mr-4'></i>
-                  46,53%
-                </td>
-              </tr>
-              <tr>
-                <th className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left'>
-                  /argon/index.html
-                </th>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  3,985
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  319
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  <i className='fas fa-arrow-down text-orange-500 mr-4'></i>
-                  46,53%
-                </td>
-              </tr>
-              <tr>
-                <th className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left'>
-                  /argon/charts.html
-                </th>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  3,513
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  294
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  <i className='fas fa-arrow-down text-orange-500 mr-4'></i>
-                  36,49%
-                </td>
-              </tr>
-              <tr>
-                <th className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left'>
-                  /argon/tables.html
-                </th>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  2,050
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  147
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  <i className='fas fa-arrow-up text-emerald-500 mr-4'></i>
-                  50,87%
-                </td>
-              </tr>
-              <tr>
-                <th className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left'>
-                  /argon/profile.html
-                </th>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  1,795
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  190
-                </td>
-                <td className='border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4'>
-                  <i className='fas fa-arrow-down text-red-500 mr-4'></i>
-                  46,53%
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <div>
+      <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+      <div class="rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="/images/upper-body.jpg" alt="Mountain"/>
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Upper Body</div>
+        <p
+          class="text-gray-700 text-base"
+        >
+            Range of exercises to effectively train your Chests, Biceps, Triceps, Shoulders and Back.
+        </p>
+        <div className='py-2'>
+        <a
+          href ='/app/workout'
+          target = 'blank'
+          className='text-blue-700 text-base'
+        >
+          Start Workout
+        </a>
         </div>
       </div>
-    </>
+      <div class="px-6 pt-4 pb-2">
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Pushups</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Pike Pushups</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Half Crunches</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Leg Raises</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">+ more</span>
+      </div>
+    </div>
+    <div class="rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="/images/legs.jpg" alt="River"/>
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Lower Body</div>
+        <p class="text-gray-700 text-base">
+        Range of exercises to effectively train your Legs and Gluteus Maximus.
+        </p>
+        <div className='py-2'>
+        <a
+          href ='/app/workout'
+          target = 'blank'
+          className='text-blue-700 text-base'
+        >
+          Start Workout
+        </a>
+        </div>
+      </div>
+      <div class="px-6 pt-4 pb-2">
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Squats</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Lunges</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Calf Raise</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Pistol Squats</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">+ more</span>
+      </div>
+    </div>
+
+    <div class="rounded overflow-hidden shadow-lg">
+      <img class="w-full" src="/images/fat.png" alt="Forest"/>
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Fat Burner (HIIT)</div>
+        <p class="text-gray-700 text-base">
+        Workouts that involve short periods of intense exercise alternated with recovery periods
+        </p>
+        <div className='py-2'>
+        <a
+          href ='/app/workout'
+          target = 'blank'
+          className='text-blue-700 text-base'
+        >
+          Start Workout
+        </a>
+        </div>
+      </div>
+      <div class="px-6 pt-4 pb-2">
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Decline Press Up Jacks</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Mountian Climbers</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Leg Raises</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">+ more</span>
+      </div>
+    </div>
+  </div>
+</div>
   );
 }

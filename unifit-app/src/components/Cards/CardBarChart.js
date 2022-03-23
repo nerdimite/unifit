@@ -59,7 +59,7 @@ export default function CardBarChart() {
         scales: {
           xAxes: [
             {
-              display: false,
+              display: true,
               scaleLabel: {
                 display: true,
                 labelString: 'Month',
@@ -78,7 +78,7 @@ export default function CardBarChart() {
             {
               display: true,
               scaleLabel: {
-                display: false,
+                display: true,
                 labelString: 'Value',
               },
               gridLines: {
@@ -107,15 +107,12 @@ export default function CardBarChart() {
               <h6 className='uppercase text-slate-400 mb-1 text-xs font-semibold'>
                 Calories Burnt
               </h6>
-              <h2 className='text-slate-700 text-xl font-semibold'>
-                Total orders
-              </h2>
             </div>
           </div>
         </div>
         <div className='p-4 flex-auto'>
           {/* Chart */}
-          <div className='relative h-350-px'>
+          <div className='relative h-[445px]'>
             <canvas id='bar-chart'></canvas>
           </div>
         </div>
