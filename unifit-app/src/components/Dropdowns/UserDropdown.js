@@ -44,13 +44,13 @@ const UserDropdown = () => {
         }
       >
         <a
-          href='#pablo'
+          href='/app/profile'
           className={
             'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700'
           }
-          onClick={(e) => e.preventDefault()}
+          //onClick={(e) => e.preventDefault()}
         >
-          Action
+          Profile
         </a>
         <a
           href='#pablo'
@@ -59,7 +59,7 @@ const UserDropdown = () => {
           }
           onClick={(e) => e.preventDefault()}
         >
-          Another action
+          Settings
         </a>
         <a
           href='#pablo'
@@ -68,17 +68,7 @@ const UserDropdown = () => {
           }
           onClick={(e) => e.preventDefault()}
         >
-          Something else here
-        </a>
-        <div className='h-0 my-2 border border-solid border-slate-100' />
-        <a
-          href='#pablo'
-          className={
-            'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700'
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Seprated link
+          Log Out
         </a>
       </div>
     </>

@@ -105,7 +105,7 @@ export default function CardBarChart() {
           <div className='flex flex-wrap items-center'>
             <div className='relative w-full max-w-full flex-grow flex-1'>
               <h6 className='uppercase text-slate-400 mb-1 text-xs font-semibold'>
-                Performance
+                Calories Burnt
               </h6>
               <h2 className='text-slate-700 text-xl font-semibold'>
                 Total orders

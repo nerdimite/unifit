@@ -15,6 +15,7 @@
     "@mediapipe/pose": "^0.5.1635988162",
     "@popperjs/core": "^2.11.4",
     "@tailwindcss/forms": "^0.5.0",
+    "chart.js": "2.9.4",
     "next": "^12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",

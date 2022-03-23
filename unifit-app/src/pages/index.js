@@ -24,19 +24,19 @@ export default function Index() {
               </p>
               <div className='mt-12'>
                 <a
-                  href=''
+                  href='/auth/login'
                   target='_blank'
                   className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-slate-400 active:bg-slate-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
                 >
                   Sign Up / Login
                 </a>
-                <a
+                {/* <a
                   href='/app'
                   className='github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-slate-700 active:bg-slate-600 uppercase text-sm shadow hover:shadow-lg'
                   target='_blank'
                 >
                   Dashboard
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
@@ -181,25 +181,14 @@ export default function Index() {
                 Vision
               </h3>
               <p className='text-lg font-light leading-relaxed mt-4 mb-4 text-slate-600'>
-                We strive to keep you fit and healthy through a range of
-                holistic offerings that include fitness and yoga, healthy meals,
-                mental wellbeing and primary care.
+                We strive to keep you fit and healthy by providing a platform which is user-friendly. We offer various workout plans and exercises to help you to get the best results.
               </p>
               <div className='block pb-6'>
                 <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Easy to use
+                  User-Friendly
                 </span>
                 <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-
-                </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Push harder
-                </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-
-                </span>
-                <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Health is Wealth
+                  Gamified
                 </span>
                 <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
                   Track and Transform
@@ -208,7 +197,7 @@ export default function Index() {
                   360 Degree Training
                 </span>
                 <span className='text-xs font-semibold inline-block py-1 px-2 rounded-full text-slate-500 bg-white uppercase last:mr-0 mr-2 mt-2'>
-                  Run while you
+                  Fun and Easy
                 </span>
               </div>
             </div>
@@ -580,19 +569,19 @@ export default function Index() {
             <div className='w-full text-center lg:w-8/12'>
               <p className='text-4xl text-center'>
                 <span role='img' aria-label='love'>
-                  😍
+                  💪
                 </span>
               </p>
               <h3 className='font-semibold text-3xl'>
-                So are you ready to go on a journey to maximise your potential?   
+                So are you ready to go on a journey to make fitness fun & maximise your potential?   
               </h3>
               <p className='text-slate-500 text-lg leading-relaxed mt-4 mb-4'>
-                Cause if you do, you are at the right place. Hit the button below to
+                If yes, then you are at the right place. Hit the button down below to
                 Sign Up with UniFit! 
               </p>
               <div className='sm:block flex flex-col mt-10'>
                 <a
-                  href='https://www.creative-tim.com/learning-lab/tailwind/nextjs/overview/notus?ref=nnjs-index'
+                  href='/auth/login'
                   target='_blank'
                   className='get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-2 bg-slate-400 active:bg-slate-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150'
                 >

@@ -113,7 +113,7 @@ export default function CardLineChart() {
           <div className='flex flex-wrap items-center'>
             <div className='relative w-full max-w-full flex-grow flex-1'>
               <h6 className='uppercase text-slate-100 mb-1 text-xs font-semibold'>
-                Overview
+                Daily hours
               </h6>
               <h2 className='text-white text-xl font-semibold'>Sales value</h2>
             </div>
@@ -121,7 +121,7 @@ export default function CardLineChart() {
         </div>
         <div className='p-4 flex-auto'>
           {/* Chart */}
-          <div className='relative h-350-px'>
+          <div className='relative h-450-px'>
             <canvas id='line-chart'></canvas>
           </div>
         </div>
