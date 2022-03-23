@@ -1,9 +1,10 @@
 from pyodide.http import open_url
 import os
 import math
+import csv
 import numpy as np
-# from sklearn.linear_model import LinearRegression
-# from sklearn.metrics import mean_absolute_percentage_error
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_percentage_error
 
 
 class FullBodyPoseEmbedder(object):
@@ -209,25 +210,100 @@ class FullBodyPoseEmbedder(object):
         return lmk_to - lmk_from
 
 
+class PoseSample(object):
+
+    def __init__(self, name, landmarks, class_name, embedding):
+        self.name = name
+        self.landmarks = landmarks
+        self.class_name = class_name
+
+        self.embedding = embedding
+
+
+class PoseSampleOutlier(object):
+
+    def __init__(self, sample, detected_class, all_classes):
+        self.sample = sample
+        self.detected_class = detected_class
+        self.all_classes = all_classes
+
+
 class PoseClassifier(object):
     """Classifies pose landmarks."""
 
     def __init__(self,
-                 pose_samples,
-                 pose_embedder=FullBodyPoseEmbedder(),
+                 pose_samples_folder,
+                 pose_embedder,
+                 file_extension='csv',
+                 file_separator=',',
                  n_landmarks=33,
                  n_dimensions=3,
                  top_n_by_max_distance=30,
                  top_n_by_mean_distance=10,
                  axes_weights=(1., 1., 0.2)):
 
-        self._pose_samples = pose_samples
         self._pose_embedder = pose_embedder
         self._n_landmarks = n_landmarks
         self._n_dimensions = n_dimensions
         self._top_n_by_max_distance = top_n_by_max_distance
         self._top_n_by_mean_distance = top_n_by_mean_distance
         self._axes_weights = axes_weights
+
+        self._pose_samples = self._load_pose_samples(pose_samples_folder,
+                                                     file_extension,
+                                                     file_separator,
+                                                     n_landmarks,
+                                                     n_dimensions,
+                                                     pose_embedder)
+
+    def _load_pose_samples(self,
+                           pose_samples_folder,
+                           file_extension,
+                           file_separator,
+                           n_landmarks,
+                           n_dimensions,
+                           pose_embedder):
+        """Loads pose samples from a given folder.
+
+        Required folder structure:
+          neutral_standing.csv
+          pushups_down.csv
+          pushups_up.csv
+          squats_down.csv
+          ...
+
+        Required CSV structure:
+          sample_00001,x1,y1,z1,x2,y2,z2,....
+          sample_00002,x1,y1,z1,x2,y2,z2,....
+          ...
+        """
+        # Each file in the folder represents one pose class.
+        file_names = [name for name in os.listdir(
+            pose_samples_folder) if name.endswith(file_extension)]
+
+        pose_samples = []
+        for file_name in file_names:
+            # Use file name as pose class name.
+            class_name = file_name[:-(len(file_extension) + 1)]
+
+            # Parse CSV.
+            with open(os.path.join(pose_samples_folder, file_name)) as csv_file:
+                csv_reader = csv.reader(csv_file, delimiter=file_separator)
+                for row in csv_reader:
+                    if len(row) == 0:
+                        continue
+                    assert len(row) == n_landmarks * n_dimensions + \
+                        1, 'Wrong number of values: {}'.format(len(row))
+                    landmarks = np.array(row[1:], np.float32).reshape(
+                        [n_landmarks, n_dimensions])
+                    pose_samples.append(PoseSample(
+                        name=row[0],
+                        landmarks=landmarks,
+                        class_name=class_name,
+                        embedding=pose_embedder(landmarks),
+                    ))
+
+        return pose_samples
 
     def __call__(self, pose_landmarks):
         """Classifies given pose.
@@ -420,7 +496,195 @@ class RepetitionCounter(object):
         return self._n_repeats
 
 
-def main(landmarks, pose_samples, reps, pose_entered):
+class PoseCritic():
+    '''Checks the correctness of a particular exercise'''
+
+    def __init__(self):
+        self.landmark_names = [
+            'nose',
+            'left_eye_inner', 'left_eye', 'left_eye_outer',
+            'right_eye_inner', 'right_eye', 'right_eye_outer',
+            'left_ear', 'right_ear',
+            'mouth_left', 'mouth_right',
+            'left_shoulder', 'right_shoulder',
+            'left_elbow', 'right_elbow',
+            'left_wrist', 'right_wrist',
+            'left_pinky_1', 'right_pinky_1',
+            'left_index_1', 'right_index_1',
+            'left_thumb_2', 'right_thumb_2',
+            'left_hip', 'right_hip',
+            'left_knee', 'right_knee',
+            'left_ankle', 'right_ankle',
+            'left_heel', 'right_heel',
+            'left_foot_index', 'right_foot_index',
+        ]
+
+        self.pose_critic = {
+            'squats': self.check_squats,
+            'pushups': self.check_pushups,
+        }
+
+    def __call__(self, exercise: str, pose_state: str, landmarks: np.array):
+        return self.pose_critic[exercise](pose_state, landmarks)
+
+    def check_squats(self, pose_state, landmarks):
+        '''Criteria for Squats
+        -> Data-driven so no criteria
+        '''
+        # if pose_state == 'squats_down':
+        #     knee_angle = np.mean([
+        #         self._compute_joint_angle(
+        #             landmarks, ['left_hip', 'left_knee', 'left_ankle']),
+        #         self._compute_joint_angle(
+        #             landmarks, ['right_hip', 'right_knee', 'right_ankle'])
+        #     ]).round()
+        #     print(knee_angle)
+
+        #     if knee_angle <= 40:
+        #         return True, 'Good Job'
+        #     elif knee_angle > 40:
+        #         return False, 'Bend your knees further'
+        # else:
+        #     return True, "Keep Going"
+
+        return True, 'Good Job'
+
+    def check_pushups(self, pose_state, landmarks):
+        '''Criteria for Pushups
+        -> Shoulders, Hips and Ankles should be in straight line
+        '''
+        torso_joints = ['left_shoulder',
+                        'right_shoulder',
+                        'left_hip',
+                        'right_hip',
+                        'left_knee',
+                        'right_knee',
+                        'left_ankle',
+                        'right_ankle']
+
+        points = np.array([landmarks[self.landmark_names.index(j)]
+                          for j in torso_joints])
+
+        line_model = LinearRegression()
+        line_model.fit(points[:, :1], points[:, 1])  # use X and Y only for now
+
+        error = mean_absolute_percentage_error(
+            points[:, 1], line_model.predict(points[:, :1]))
+
+        if error < 0.03:
+            return True, 'Good Job'
+        else:
+            return False, 'Keep your back and body straight'
+
+    def _calculate_angle(self, p1, p2, p3):
+
+        x1, y1, z1 = p1
+        x2, y2, z2 = p2
+        x3, y3, z3 = p3
+
+        # Find direction ratio of line AB
+        ABx = x1 - x2
+        ABy = y1 - y2
+        ABz = z1 - z2
+
+        # Find direction ratio of line BC
+        BCx = x3 - x2
+        BCy = y3 - y2
+        BCz = z3 - z2
+
+        # Find the dotProduct
+        # of lines AB & BC
+        dotProduct = (ABx * BCx +
+                      ABy * BCy +
+                      ABz * BCz)
+
+        # Find magnitude of
+        # line AB and BC
+        magnitudeAB = (ABx * ABx +
+                       ABy * ABy +
+                       ABz * ABz)
+        magnitudeBC = (BCx * BCx +
+                       BCy * BCy +
+                       BCz * BCz)
+
+        # Find the cosine of
+        # the angle formed
+        # by line AB and BC
+        angle = dotProduct
+        angle /= math.sqrt(magnitudeAB *
+                           magnitudeBC)
+
+        # Find angle in radian
+        angle = (angle * 180) / 3.14
+
+        return round(abs(angle), 4)
+
+    def _compute_joint_angle(self, landmarks, joints):
+        assert len(joints) == 3, 'Angle can only be calculated between 3 points'
+
+        points = []
+        for j in joints:
+            p = landmarks[self.landmark_names.index(j)]
+            points.append(p)
+
+        p1, p2, p3 = points
+
+        angle = self._calculate_angle(p1, p2, p3)
+
+        return angle
+
+
+def load_database():
+
+    csv_paths = {
+        'pushups': [
+            "/python/fitness_data/pushups/push_down.csv",
+            "/python/fitness_data/pushups/push_up.csv"
+        ],
+        'squats': [
+            "/python/fitness_data/squats/squats_down.csv",
+            "/python/fitness_data/squats/squats_up.csv"
+        ],
+    }
+
+    for exercise, paths in csv_paths.items():
+        os.makedirs(exercise, exist_ok=True)
+
+        for path in paths:
+            response = open_url(path)
+            save_path = os.path.join(exercise, os.path.split(path)[-1])
+            with open(save_path, 'w') as f:
+                f.write(response.getvalue())
+
+
+# ----------------------------------------------------------------
+# Initialize embedder.
+pose_embedder = FullBodyPoseEmbedder()
+
+load_database()
+pose_classifier = PoseClassifier(
+    pose_samples_folder='squats',
+    pose_embedder=pose_embedder,
+    top_n_by_max_distance=30,
+    top_n_by_mean_distance=10,
+    axes_weights=(1., 1., 0.2))
+
+# Initialize EMA smoothing.
+pose_classification_filter = EMADictSmoothing(
+    window_size=10,
+    alpha=0.2)
+
+# Initialize counter.
+repetition_counter = RepetitionCounter(
+    class_name='squats_down',
+    enter_threshold=6,
+    exit_threshold=4)
+
+# Initialize PoseCritic
+pose_critic = PoseCritic()
+# ----------------------------------------------------------------
+
+def main(landmarks):
 
     landmarks = landmarks.to_py()
 
@@ -430,48 +694,24 @@ def main(landmarks, pose_samples, reps, pose_entered):
 
     visibility = all([lmk['visibility'] > 0.5 for lmk in landmarks])
 
-    # if visibility:
-
-    # Initialize pose objects
-    pose_classifier = PoseClassifier(pose_samples=pose_samples)
-    pose_classification_filter = EMADictSmoothing()
-    repetition_counter = RepetitionCounter(
-        class_name='push_down',
-        enter_threshold=6,
-        exit_threshold=4)
-
     # print(visibility)
     # print(pose_landmarks)
 
     # Classify the pose on the current frame.
     pose_classification = pose_classifier(pose_landmarks)
 
-    # Smooth classification using EMA.
-    pose_classification_filtered = pose_classification_filter(
-        pose_classification)
-
-    pose_state = sorted(
-        pose_classification_filtered.items(), key=lambda x: x[1])[-1][0]
+    # # Smooth classification using EMA.
+    # pose_classification_filtered = pose_classification_filter(
+    #     pose_classification)
 
     # Count repetitions.
-    # print('Reps1', reps)
-    repetition_counter._n_repeats = reps
-    repetition_counter._pose_entered = pose_entered
-    reps = repetition_counter(pose_classification_filtered)
+    # repetitions_count = repetition_counter(
+    #     pose_classification_filtered)  # TODO: Maintain the repetition state externally
 
-    # print('Classified', pose_state)
-    # print('Classification Results', pose_classification_filtered)
-    # print('Reps:', reps)
+    pose_state = sorted(
+        pose_classification.items(), key=lambda x: x[1])[-1][0]
 
-    return {
-        'pose_state': pose_state,
-        'reps': {
-            'reps': reps,
-            'pose_entered': repetition_counter._pose_entered
-        }
-    }
-    # else:
-    #     return 'Make Sure the Full Body is Visible'
+    print(pose_state)
 
 
 main

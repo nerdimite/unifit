@@ -65,7 +65,7 @@ def main(pose_classifier, pose_classification_filter, repetition_counter, exerci
                 display_frame = cv2.flip(
                     cv2.cvtColor(output_frame, cv2.COLOR_BGR2RGB), 1)
 
-                if pose_landmarks is not None and visibility:
+                if pose_landmarks is not None:
                     # Get landmarks.
                     frame_height, frame_width = output_frame.shape[0], output_frame.shape[1]
                     pose_landmarks = np.array([[lmk.x * frame_width, lmk.y * frame_height, lmk.z * frame_width]

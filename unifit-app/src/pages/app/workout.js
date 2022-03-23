@@ -3,12 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { Container, Prose, Link } from "components/core";
+import { LoadingPopup } from "components/workout";
 import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
 import { Camera } from "@mediapipe/camera_utils";
 import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 
 export default function Workout() {
-  // For pose estimation
+  // For Pose Estimation
   const inputVideoRef = useRef();
   const canvasRef = useRef();
   const [landmarks, setLandmarks] = useState(null);
@@ -17,6 +18,13 @@ export default function Workout() {
   const indexURL = "https://cdn.jsdelivr.net/pyodide/dev/full/";
   const pyodide = useRef(null);
   const [isPyodideLoading, setIsPyodideLoading] = useState(true);
+
+  const [popup, setPopup] = useState(true);
+
+  // For Pose Classification
+  const [exercise, setExercise] = useState("pushups");
+  const [poseSamples, setPoseSamples] = useState(null);
+  const [reps, setReps] = useState({ reps: Number(0), pose_entered: false });
 
   /**
    * Initialize and Setup Pose Tracking
@@ -29,10 +37,10 @@ export default function Workout() {
     });
     pose.setOptions({
       selfieMode: true,
-      modelComplexity: 0,
+      modelComplexity: 1,
       smoothLandmarks: true,
       enableSegmentation: false,
-      smoothSegmentation: true,
+      smoothSegmentation: false,
       minDetectionConfidence: 0.5,
       minTrackingConfidence: 0.5,
     });
@@ -89,31 +97,84 @@ export default function Workout() {
   };
 
   /**
-   * Evaluate and execute python code
+   * Executes python code in pyodide
+   */
+  const evaluatePython = async (pyodide, pythonCode) => {
+    try {
+      let _output = await pyodide.runPython(pythonCode);
+      return _output;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  /**
+   * Wait for everything to get loaded
    */
   useEffect(() => {
-    if (!isPyodideLoading && landmarks) {
-      const evaluatePython = async (pyodide, pythonCode) => {
-        try {
-          let _output = await pyodide.runPython(pythonCode);
-          return _output;
-        } catch (error) {
-          console.error(error);
-          return "Error evaluating Python code. See console for details.";
+    if (!isPyodideLoading && pyodide && poseSamples) {
+      setPopup(false);
+    } else {
+      setPopup(true);
+    }
+  }, [poseSamples, isPyodideLoading, pyodide]);
+
+  /**
+   * Initialize the Pose Classifier
+   */
+  useEffect(() => {
+    if (!isPyodideLoading) {
+      (async function () {
+        let response = await fetch("/python/init.py");
+        let pythonCode = await response.text();
+
+        let loadPoseSamples = await evaluatePython(pyodide.current, pythonCode);
+        if (loadPoseSamples !== null) {
+          let _poseSamples = loadPoseSamples(exercise).toJs();
+          // console.log(_poseSamples);
+          setPoseSamples(_poseSamples);
+          // setPyodideOutput(_output(5));
+          // console.log("JS", window.x.toJs());
+          console.log("Pose Samples Loaded!");
+        } else {
+          alert("Executing the Initial Python Setup Code Failed");
         }
-      };
+      })();
+    }
+  }, [isPyodideLoading, pyodide, exercise]);
+
+  /**
+   * Run the Pose Classifier
+   */
+  useEffect(() => {
+    if (!isPyodideLoading && landmarks && poseSamples) {
       (async function () {
         let response = await fetch("/python/main.py");
         let pythonCode = await response.text();
-        // console.log(pythonCode);
-
-        let output = await evaluatePython(pyodide.current, pythonCode);
-        output(landmarks);
-        // setPyodideOutput(_output(5));
-        // console.log("JS", window.x.toJs());
+        // let _reps = Object.fromEntries(reps);
+        // console.log(reps);
+        let main = await evaluatePython(pyodide.current, pythonCode);
+        if (main !== null) {
+          let output = main(
+            landmarks,
+            poseSamples,
+            reps.reps,
+            reps.pose_entered
+          ).toJs();
+          output = Object.fromEntries(output);
+          console.log(output);
+          let _reps = Object.fromEntries(output.reps);
+          console.log(_reps.reps, output.pose_state);
+          setReps(_reps);
+          // if (_reps.reps > reps.reps) {
+          // }
+        } else {
+          alert("Classification Failed");
+        }
       })();
     }
-  }, [landmarks, isPyodideLoading, pyodide]);
+  }, [landmarks, poseSamples, isPyodideLoading, pyodide, reps]);
 
   return (
     <Container>
@@ -133,6 +194,7 @@ export default function Workout() {
           Dashboard
         </a>
       </Prose>
+
       <div className="absolute w-[889px] h-[500px]">
         <video
           autoPlay
@@ -146,8 +208,17 @@ export default function Workout() {
           width={889}
           className="block relative left-0 top-0 border-2 border-red-600"
         ></canvas>
-        {/* <div ref={landmarkGridRef}></div> */}
       </div>
+
+      <LoadingPopup
+        open={popup}
+        setOpen={setPopup}
+        onLogin={() => {
+          router.push(
+            `https://console.cellstrathub.com/marketplace/${props.apiId}`
+          );
+        }}
+      />
     </Container>
   );
 }
