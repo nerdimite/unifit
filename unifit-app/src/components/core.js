@@ -19,3 +19,11 @@ export const Link = (props) => {
     </NextLink>
   );
 };
+
+export const Card = (props) => {
+  return (
+    <div className={`shadow-xl rounded-md p-2 mb-4 ${props.className}`}>
+      {props.children}
+    </div>
+  );
+};

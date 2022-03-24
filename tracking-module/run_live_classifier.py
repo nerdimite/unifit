@@ -91,7 +91,7 @@ def main(pose_classifier, pose_classification_filter, repetition_counter, exerci
                                 cv2.FONT_HERSHEY_PLAIN, 1.5,
                                 (0, 255, 255) if pose_state == count_state else (0, 255, 0), 2)
                     cv2.putText(display_frame, f"Reps: {repetitions_count}", (10, 80),
-                                cv2.FONT_HERSHEY_PLAIN, 1.5, (255, 0, 0), 2)
+                                cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 255, 0), 2)
 
                     # Check Accuracy of Pose
                     is_correct, remarks = pose_critic(

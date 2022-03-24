@@ -1,5 +1,335 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
+/* eslint-disable @next/next/no-sync-scripts */
+import { useState, useEffect, useRef } from "react";
+import Head from "next/head";
+import { Container, Prose, Link, Card } from "./core";
+import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
+import { Camera } from "@mediapipe/camera_utils";
+import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+
+// Pose Classification Utilities =====================================
+export class RepCounter {
+  constructor(stateName) {
+    this.reps = 0;
+    this.poseEntered = false;
+    this.stateName = stateName;
+  }
+
+  count(poseClassification) {
+    // Get pose confidence
+
+    let poseConfidence = 0.0;
+    if (this.stateName in poseClassification) {
+      poseConfidence = poseClassification[this.stateName];
+      // console.log(poseConfidence);
+    }
+    // On the very first frame or if we were out of the pose, just check if we
+    // entered it on this frame and update the state
+    if (!this.poseEntered) {
+      this.poseEntered = poseConfidence > 6; // enter threshold
+      return this.reps;
+    }
+    // If we were in the pose and are exiting it, then increase the counter and
+    // update the state. exit threshold = 4
+    if (poseConfidence < 4) {
+      this.reps = this.reps + 1;
+      this.poseEntered = false;
+    }
+    return this.reps;
+  }
+}
+
+export class EMASmoothing {
+  constructor() {
+    this.windowSize = 10;
+    this.alpha = 0.2;
+    this.dataWindow = [];
+  }
+
+  smooth(data) {
+    // Add new data to the beginning of the window for simpler code
+    this.dataWindow.unshift(data);
+    this.dataWindow = this.dataWindow.slice(0, this.windowSize);
+
+    // Get all keys
+    let keys = [];
+    for (let i in this.dataWindow) {
+      let data = this.dataWindow[i];
+      for (let j in Object.keys(data)) {
+        let key = Object.keys(data)[j];
+        keys.push(key);
+      }
+    }
+    keys = Array.from(new Set(keys));
+
+    // Get smoothed values
+    let smoothedData = {};
+    for (let i in keys) {
+      let key = keys[i];
+
+      let factor = 1.0;
+      let topSum = 0.0;
+      let bottomSum = 0.0;
+      for (let j in this.dataWindow) {
+        let data = this.dataWindow[j];
+
+        let value = 0.0;
+        if (key in data) {
+          value = data[key];
+        }
+
+        topSum += factor * value;
+        bottomSum += factor;
+
+        factor *= 1.0 - this.alpha;
+      }
+      // console.log(topSum, bottomSum);
+      smoothedData[key] = topSum / bottomSum;
+    }
+
+    return smoothedData;
+  }
+}
+
+// UI Components ===============================================
+
+export function WorkoutView(props) {
+  // For Pose Estimation
+  const inputVideoRef = useRef();
+  const canvasRef = useRef();
+  const [landmarks, setLandmarks] = useState(null);
+
+  const [popup, setPopup] = useState(true);
+
+  // For Pose Classification
+  const [repCounter, setRepCounter] = useState(null);
+  const [emaSmoother, setEMASmoother] = useState(null);
+
+  // Workout Interface
+  const [nWorkout, setNWorkout] = useState(0);
+  const [currWorkout, setCurrWorkout] = useState(props.workoutPlan);
+  const [reps, setReps] = useState(0);
+  const [remarks, setRemarks] = useState(null);
+  const [isCorrect, setIsCorrect] = useState(null);
+  const [currSet, setCurrSet] = useState(0);
+  const [start, setStart] = useState(false);
+
+  /**
+   * Initialize and Setup Pose Tracking
+   */
+  useEffect(() => {
+    const pose = new Pose({
+      locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+      },
+    });
+    pose.setOptions({
+      selfieMode: true,
+      modelComplexity: 1,
+      smoothLandmarks: true,
+      enableSegmentation: false,
+      smoothSegmentation: false,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+    });
+    pose.onResults(onResults);
+    const camera = new Camera(inputVideoRef.current, {
+      onFrame: async () => {
+        await pose.send({ image: inputVideoRef.current });
+      },
+      width: 1280,
+      height: 720,
+    });
+    camera.start();
+  }, []);
+
+  /**
+   * Draw the landmarks on the body when results are computed
+   */
+  const onResults = (results) => {
+    const canvasCtx = canvasRef.current.getContext("2d");
+    // console.log(canvasCtx, canvasRef.current.width);
+    canvasCtx.save();
+
+    canvasCtx.clearRect(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    );
+
+    drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+      color: "#00FF00",
+      lineWidth: 4,
+    });
+    drawLandmarks(canvasCtx, results.poseLandmarks, {
+      color: "#FF0000",
+      lineWidth: 2,
+    });
+
+    // console.log(results.poseLandmarks);
+    setLandmarks(results.poseLandmarks);
+
+    canvasCtx.restore();
+  };
+
+  /**
+   * Initialize Pose Stuff on every workout change
+   */
+  useEffect(() => {
+    setRepCounter(new RepCounter(currWorkout.repState));
+    setEMASmoother(new EMASmoothing());
+  }, [currWorkout]);
+
+  /**
+   * Run Pose Classifier
+   */
+  useEffect(() => {
+    if (landmarks) {
+      setPopup(false);
+
+      if (start) {
+        (async function () {
+          // Run Pose Classifier
+          let clsResponse = await fetch("http://127.0.0.1:5000/pred", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+            body: JSON.stringify({
+              landmarks: landmarks,
+              exercise: currWorkout.exercise,
+            }),
+          });
+          let output = await clsResponse.json();
+
+          // Count Reps
+          repCounter.count(output.pose_classification);
+
+          // Smooth Predictions using EMA
+          let poseClassification = emaSmoother.smooth(
+            output.pose_classification
+          );
+          // console.log(repCounter.reps, poseClassification);
+          setReps(repCounter.reps);
+
+          // Get the pose state by sorting
+          let _items = Object.keys(poseClassification).map(function (key) {
+            return [key, poseClassification[key]];
+          });
+          _items.sort(function (first, second) {
+            return second[1] - first[1];
+          });
+          let poseState = _items[_items.length - 1][0];
+          // console.log(poseState);
+
+          // Run Pose Critic
+          let criticResponse = await fetch("http://127.0.0.1:5000/critic", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+            body: JSON.stringify({
+              landmarks: landmarks,
+              exercise: currWorkout.exercise,
+              pose_state: poseState,
+            }),
+          });
+          let feedback = await criticResponse.json();
+          // console.log(feedback.remarks);
+          setRemarks(feedback.remarks);
+          setIsCorrect(feedback.isCorrect);
+
+          if (repCounter.reps > currWorkout.reps[currSet] - 1) {
+            setReps(0);
+            setIsCorrect(false);
+            setRemarks(null);
+            setStart(false);
+            setRepCounter(new RepCounter(currWorkout.repState));
+            setCurrSet(currSet + 1);
+          }
+        })();
+      }
+    }
+  }, [landmarks, currWorkout, repCounter, emaSmoother, start, currSet]);
+
+  useEffect(() => {
+    if (currSet === currWorkout.reps.length) {
+      setCurrSet(0);
+    }
+  }, [currSet, currWorkout]);
+
+  return (
+    <div>
+      <div className="absolute w-[889px] h-[500px]">
+        <video
+          autoPlay
+          ref={inputVideoRef}
+          className="absolute left-0 top-0 right-0 bottom-0"
+          style={{ transform: "scale(-1, 1)", height: "100%" }}
+        ></video>
+        <canvas
+          ref={canvasRef}
+          height={500}
+          width={889}
+          className={`block relative left-0 top-0 border-4 rounded-sm ${
+            isCorrect ? "border-green-600" : "border-red-600"
+          }`}
+        ></canvas>
+
+        <div
+          className="absolute left-2 top-2 \
+          border-2 border-slate-600 bg-slate-200 w-1/2 \
+          rounded-md p-2"
+        >
+          <span className="text-lg font-bold">Status: </span>
+          <span
+            className={`text-lg ${
+              isCorrect ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {remarks}
+          </span>
+        </div>
+        <div
+          className="absolute right-20 top-2 \
+          border-2 border-slate-600 bg-slate-200 \
+          rounded-md p-2"
+        >
+          <span className="text-2xl font-bold">Reps: {reps}</span>
+        </div>
+        <button
+          className="absolute right-2 top-2 \
+          border-2 border-slate-600 bg-green-600 \
+          rounded-md p-2 text-white"
+          onClick={() => {
+            setStart(true);
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+      </div>
+      <LoadingPopup open={popup} setOpen={setPopup} />
+    </div>
+  );
+}
 
 export const LoadingPopup = (props) => {
   return (
