@@ -3,15 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { Container, Prose, Link, Card } from "components/core";
-import {
-  LoadingPopup,
-  RepCounter,
-  EMASmoothing,
-  WorkoutView,
-} from "components/workout";
-import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
-import { Camera } from "@mediapipe/camera_utils";
-import { drawLandmarks, drawConnectors } from "@mediapipe/drawing_utils";
+import { WorkoutView } from "components/workout";
+import WorkoutNavbar from "components/Navbars/WorkoutNavbar.js";
 
 const workoutPlan = [
   {
@@ -19,7 +12,7 @@ const workoutPlan = [
     exercise: "squats",
     repState: "squats_down",
     states: ["squats_down", "squats_up"],
-    reps: [3],
+    reps: [12, 10, 8],
   },
 
   {
@@ -27,59 +20,106 @@ const workoutPlan = [
     exercise: "pushups",
     repState: "push_down",
     states: ["push_down", "push_up"],
-    reps: [3],
+    reps: [12, 10, 8],
+  },
+
+  {
+    label: "Leg Raise",
+    exercise: "legraise",
+    repState: "leg_up",
+    states: ["leg_down", "leg_up"],
+    reps: [12, 10, 8],
   },
 ];
 
 export default function Workout() {
   const [currWorkout, setCurrWorkout] = useState(workoutPlan[0]);
   return (
-    <Container>
-      <Head>
-        <title>Workout | UniFit</title>
-        <meta name="description" content="The Future of Fitness is Here" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <div className="">
+      <WorkoutNavbar />
+      <div className="mt-20 ">
+        <Head>
+          <title>Workout | UniFit</title>
+          <meta name="description" content="The Future of Fitness is Here" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <Prose>
-        <h1>Workout</h1>
-        <a href="/" className="decoration-blue-500">
-          Home
-        </a>
-        <br />
-        <a href="/app" className="decoration-green-500">
-          Dashboard
-        </a>
-        <br />
-        <button
-          onClick={() => {
-            setCurrWorkout(workoutPlan[0]);
-          }}
-        >
-          Squats
-        </button>
-        <br />
-        <button
-          onClick={() => {
-            setCurrWorkout(workoutPlan[1]);
-          }}
-        >
-          Push Ups
-        </button>
-      </Prose>
+        <Container>
+          <Prose>
+            {/* <h1>Workout</h1>
+          <a href="/" className="decoration-blue-500">
+            Home
+          </a>
+          <br />
+          <a href="/app" className="decoration-green-500">
+            Dashboard
+          </a> */}
+            <br />
+          </Prose>
 
-      <WorkoutView workoutPlan={currWorkout} />
+          <WorkoutView workoutPlan={currWorkout} />
 
-      <div className="md:ml-[920px]">
-        <Card className="border-2 border-blue-500">
-          <div className="text-lg font-bold text-[0f172a]">
-            Current Exercise{" "}
-            <span className="text-red-500">{currWorkout.label}</span>
+          <div className="md:ml-[920px]">
+            <Card className="border-2 border-blue-500">
+              <div className="text-lg font-bold text-[0f172a]">
+                Current Exercise{" "}
+                <span className="text-red-500">{currWorkout.label}</span>
+              </div>
+            </Card>
+            <Card className="border-2 bg-slate-700">
+              <button
+                className="hover:text-slate-500 text-white"
+                onClick={() => {
+                  setCurrWorkout(workoutPlan[0]);
+                }}
+              >
+                Squats (12, 10, 8)
+              </button>
+            </Card>
+            <Card className="border-2 bg-slate-700">
+              <button
+                className="hover:text-slate-500 text-white"
+                onClick={() => {
+                  setCurrWorkout(workoutPlan[1]);
+                }}
+              >
+                Push Ups (12, 10, 8)
+              </button>
+            </Card>
+            <Card className="border-2 bg-slate-700">
+              <button
+                className="hover:text-slate-500 text-white"
+                onClick={() => {
+                  setCurrWorkout(workoutPlan[2]);
+                }}
+              >
+                Leg Raise (12, 10, 8)
+              </button>
+            </Card>
+            <Card className="border-2 bg-slate-700">
+              <button
+                className="hover:text-slate-500 text-white"
+                onClick={() => {
+                  setCurrWorkout(workoutPlan[2]);
+                }}
+              >
+                Crunches (12, 10, 8)
+              </button>
+            </Card>
+            <Card className="border-2 bg-slate-700">
+              <button
+                className="hover:text-slate-500 text-white"
+                onClick={() => {
+                  setCurrWorkout(workoutPlan[2]);
+                }}
+              >
+                Pike Pushups (12, 10, 8)
+              </button>
+            </Card>
           </div>
-        </Card>
-        <Card className="border-2 border-green-500">{}</Card>
+        </Container>
       </div>
-    </Container>
+    </div>
   );
 }
 

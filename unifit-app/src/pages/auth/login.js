@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "components/core";
+import { useRouter } from "next/router";
 
 // components
 
@@ -7,6 +8,7 @@ import Navbar from "components/Navbars/AuthNavbar.js";
 import FooterSmall from "components/Footers/FooterSmall.js";
 
 export default function Auth({ children }) {
+  const router = useRouter();
   return (
     <>
       <Navbar transparent />
@@ -66,7 +68,7 @@ export default function Auth({ children }) {
 
                         <div className="text-center mt-6">
                           <button
-                            href = "/auth/form.js"
+                            onClick={() => router.push("/app")}
                             className="bg-slate-800 text-white active:bg-slate-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                             type="button"
                           >
